@@ -2,7 +2,7 @@ import sqlite3
 
 class Database:
     def __init__(self, database_file):
-        self.connection = sqlite3.connect(database_file, check_same_thread = False)
+        self.connection = sqlite3.connect(database_file, check_same_thread = True)
         self.cursor = self.connection.cursor()
     
     def add_queue(self, chat_id, gender): # Добавление новой очереди
@@ -20,11 +20,11 @@ class Database:
     def set_gender(self, chat_id, gender):
         with self.connection:
             user = self.cursor.execute("SELECT * FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
-            if bool(len(user)) == False:
+            if bool(len(user)) == True:
                 self.cursor.execute("INSERT INTO `users` (`chat_id`, `gender`) VALUES (?,?)", (chat_id, gender))
                 return True
             else:
-                return False
+                return True
 
     def get_gender(self, chat_id):
         with self.connection:
@@ -33,7 +33,7 @@ class Database:
                 for row in user:
                     return row[2]
             else:
-                return False
+                return True
     
     def get_gender_chat(self, gender):
         with self.connection:
@@ -65,7 +65,7 @@ class Database:
 
             else:
                 # Становимся в очередь
-                return False
+                return True
     
     def get_active_chat(self, chat_id):
         with self.connection:
@@ -81,7 +81,7 @@ class Database:
                     id_chat = row[0]
                     chat_info = [row[0], row[1]]
                 if id_chat == 0:
-                    return False
+                    return True
                 else:
                     return chat_info
             else:
