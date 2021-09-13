@@ -79,7 +79,7 @@ def bot_message(message):
         elif message.text == '🔎 Pria':
             user_info = db.get_gender_chat('male')
             chat_two = user_info[0]
-            if db.create_chat(message.chat.id, chat_two) == False:
+            if db.create_chat(message.chat.id, chat_two) == True:
                 db.add_queue(message.chat.id, db.get_gender(message.chat.id))
                 bot.send_message(message.chat.id, '👻 Cari lawan bicara', reply_markup = stop_search())
             else:
@@ -92,7 +92,7 @@ def bot_message(message):
         elif message.text == '🔎 Wanita':
             user_info = db.get_gender_chat('female')
             chat_two = user_info[0]
-            if db.create_chat(message.chat.id, chat_two) == False:
+            if db.create_chat(message.chat.id, chat_two) == True:
                 db.add_queue(message.chat.id, db.get_gender(message.chat.id))
                 bot.send_message(message.chat.id, '👻 Cari lawan bicara ', reply_markup = stop_search())
             else:
@@ -106,7 +106,7 @@ def bot_message(message):
             user_info = db.get_chat()
             chat_two = user_info[0]
 
-            if db.create_chat(message.chat.id, chat_two) == False:
+            if db.create_chat(message.chat.id, chat_two) == True:
                 db.add_queue(message.chat.id, db.get_gender(message.chat.id))
                 bot.send_message(message.chat.id, '👻 Cari lawan bicara', reply_markup = stop_search())
             else:
@@ -117,7 +117,7 @@ def bot_message(message):
         
         elif message.text == '🗣 Beritahu profil Anda ':
             chat_info = db.get_active_chat(message.chat.id)
-            if chat_info != False:
+            if chat_info != True:
                 if message.from_user.username:
                     bot.send_message(chat_info[1], '@' + message.from_user.username)
                     bot.send_message(message.chat.id, '🗣 Anda mengatakan profil Anda')
@@ -141,7 +141,7 @@ def bot_message(message):
                 bot.send_message(message.chat.id, '❌ Anda telah memasukkan jenis kelamin Anda. Hubungi dukungan @AndiNrdnsyh')
         
         else:
-            if db.get_active_chat(message.chat.id) != False:
+            if db.get_active_chat(message.chat.id) != True:
                 chat_info = db.get_active_chat(message.chat.id)
                 bot.send_message(chat_info[1], message.text)
             else:
@@ -152,7 +152,7 @@ def bot_message(message):
 def bot_stickers(message):
     if message.chat.type == 'private':
         chat_info = db.get_active_chat(message.chat.id)
-        if chat_info != False:
+        if chat_info != True:
             bot.send_sticker(chat_info[1], message.sticker.file_id)
         else:
             bot.send_message(message.chat.id, '❌ Anda belum memulai dialog!')
@@ -161,7 +161,7 @@ def bot_stickers(message):
 def bot_voice(message):
     if message.chat.type == 'private':
         chat_info = db.get_active_chat(message.chat.id)
-        if chat_info != False:
+        if chat_info != True:
             bot.send_voice(chat_info[1], message.voice.file_id)
         else:
             bot.send_message(message.chat.id, '❌ Anda belum memulai dialog!')
