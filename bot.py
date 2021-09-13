@@ -2,7 +2,7 @@ import telebot
 from telebot import types
 from database import Database
 
-TOKEN = ''
+TOKEN = '1970552219:AAFJxP57OTWsWKQ7l1feSY9UFboNL9ihC78'
 db = Database('db.db')
 bot = telebot.TeleBot(TOKEN)
 
